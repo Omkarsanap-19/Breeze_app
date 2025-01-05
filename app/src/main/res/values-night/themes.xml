@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Breeze" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="backgroundColor">#202020</item>
+        <item name="colorOnBackground">#FFFFFF</item>
+        <item name="cardBackgroundColor">#333333</item>
+       <item name="colorPrimary">@color/white</item>
+        <item name="boxBackgroundColor">#333333</item>
+        <item name="itemFillColor">#434343</item>
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    </style>
+
+
+
+</resources>

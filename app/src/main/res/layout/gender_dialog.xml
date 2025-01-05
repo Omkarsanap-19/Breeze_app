@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_background"
+    >
+
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:textSize="18sp"
+        android:padding="15dp"
+        android:fontFamily="@font/roboto"
+        android:clickable="true"
+        android:id="@+id/male"
+        android:textStyle="bold"
+        android:text="Male"
+        android:gravity="center"
+        android:textColor="?attr/colorOnBackground"
+        android:foreground="?attr/selectableItemBackground" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:textSize="18sp"
+        android:padding="15dp"
+        android:fontFamily="@font/roboto"
+        android:clickable="true"
+        android:id="@+id/female"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:text="Female"
+        android:gravity="center"
+        android:textColor="?attr/colorOnBackground"
+        android:foreground="?attr/selectableItemBackground" />
+
+
+</LinearLayout>

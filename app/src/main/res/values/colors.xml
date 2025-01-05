@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="my_light_primary">#FF000000</color>
+    <color name="my_dark_primary">#FFFFFFFF</color>
+    <color name="grey">#eeeeee</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="profile_item">#F6F6F6</color>
+    <color name="red">#FF0000</color>
+</resources>
