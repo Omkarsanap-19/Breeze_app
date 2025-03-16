@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
@@ -28,6 +29,7 @@ import com.example.breeze.MainActivity.Companion.userId
 import com.example.breeze.databinding.FragmentFifthCategoryBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.qamar.curvedbottomnaviagtion.CurvedBottomNavigation
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -61,31 +63,32 @@ class Search_page : Fragment() {
         database = FirebaseDatabase.getInstance().getReference("bookmarks")
         loading = view.findViewById(R.id.progressBar)
 
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
 
-                replaceFramewithFragment(Home_page())
-            }
-        })
+                    (requireActivity() as MainActivity).bottomUpdate(1)
+                    replaceFramewithFragment(Home_page())
+                }
+            })
 
 
-
-//        // Programmatically focus on the search bar
-//        searchView.requestFocus()
-//
-//        //Show the keyboard
-//        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-//        imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrEmpty()) {
                     fetchNews(query)
                     // Close the keyboard
-                    val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                    val imm =
+                        requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(searchView.windowToken, 0)
                 } else {
-                    Toast.makeText(requireContext(), "Search query cannot be empty", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Search query cannot be empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 return true
@@ -119,7 +122,10 @@ class Search_page : Fragment() {
 
     private fun fetchNews(query: String?) {
 
-        val news = RetrofitInstance.newsInstance.getSearch(query.toString(),profileActivity.UniversalVariable.sharedValue)
+        val news = RetrofitInstance.newsInstance.getSearch(
+            query.toString(),
+            profileActivity.UniversalVariable.sharedValue
+        )
 
         news.enqueue(object : Callback<NewsResponse?> {
             override fun onResponse(p0: Call<NewsResponse?>, p1: Response<NewsResponse?>) {
@@ -127,8 +133,12 @@ class Search_page : Fragment() {
 
                 val response_body = p1.body()
 
-                val news_items = response_body?.data!!
-                if (response_body?.data != null && response_body.data.isNotEmpty()) {
+                val news_items = if (response_body?.data != null) {
+                    response_body.data
+                } else {
+                    emptyList()
+                }
+                if (response_body?.data != null && response_body.data.isNotEmpty() && news_items.isNotEmpty()) {
 
                     recyclerView.layoutManager = LinearLayoutManager(context)
                     adapt = myAdapter(requireActivity(), news_items)
@@ -145,13 +155,16 @@ class Search_page : Fragment() {
                     })
 
 
-                    adapt.shareItemclicklistener(object :myAdapter.onshareclick{
+                    adapt.shareItemclicklistener(object : myAdapter.onshareclick {
                         override fun shareitemclicking(position: Int) {
                             val intent = Intent(Intent.ACTION_SEND)
-                            intent.putExtra(Intent.EXTRA_TEXT,"${news_items[position].title} \n ${news_items[position].url} \n \n By ${news_items[position].publisher?.name} via Breeze")
+                            intent.putExtra(
+                                Intent.EXTRA_TEXT,
+                                "${news_items[position].title} \n ${news_items[position].url} \n \n By ${news_items[position].publisher?.name} via Breeze"
+                            )
                             intent.setType("text/plain")
 
-                            if (intent.resolveActivity(requireContext().packageManager)!=null){
+                            if (intent.resolveActivity(requireContext().packageManager) != null) {
                                 startActivity(intent)
                             }
                         }
@@ -161,7 +174,10 @@ class Search_page : Fragment() {
 
                     adapt.setItemBooklistener(object : myAdapter.onitembookmark {
                         override fun setitemBookmark(position: Int) {
-                            val uniqueId = generateUniqueKey(news_items[position].title,news_items[position].date)
+                            val uniqueId = generateUniqueKey(
+                                news_items[position].title,
+                                news_items[position].date
+                            )
                             database.child(userId).child(uniqueId)
                                 .setValue(news_items[position]).addOnCompleteListener {
                                     if (it.isSuccessful) {
@@ -182,7 +198,11 @@ class Search_page : Fragment() {
                         }
                     })
                 } else {
-                    Toast.makeText(requireContext(), "No results found for $query", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "No results found for $query",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     adapt = myAdapter(requireActivity(), emptyList())
                     recyclerView.adapter = adapt
                 }
@@ -193,7 +213,11 @@ class Search_page : Fragment() {
             override fun onFailure(p0: Call<NewsResponse?>, p1: Throwable) {
                 loading.visibility = View.GONE
                 Log.d("Main Activity", "onFailure: " + p1.message)
-                Toast.makeText(requireContext(),"Failed to fetch results. Please try again." , Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to fetch results. Please try again.",
+                    Toast.LENGTH_SHORT
+                ).show()
 
             }
         })
@@ -201,11 +225,12 @@ class Search_page : Fragment() {
     }
 
 
-    fun replaceFramewithFragment(fragment: Fragment){
+    fun replaceFramewithFragment(fragment: Fragment) {
 
         val fragmanager = fragmentManager
         val transaction = fragmanager?.beginTransaction()
-        transaction?.replace(R.id.framelayout,fragment)
+        transaction?.replace(R.id.framelayout, fragment)
+        transaction?.addToBackStack(tag)
         transaction?.commit()
 
     }

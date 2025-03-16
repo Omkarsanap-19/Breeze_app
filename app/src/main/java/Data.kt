@@ -13,5 +13,6 @@ data class Data(
     var publisher: Publisher? = Publisher(),
     var thumbnail: String? = "",
     var title: String? = "",
-    var url: String? = ""
+    var url: String? = "",
+    var time: Int? = 0
 )

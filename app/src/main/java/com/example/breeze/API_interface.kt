@@ -9,6 +9,7 @@ import retrofit2.http.Query
 
 interface API_interface {
 
+
     @GET("v2/trendings?rapidapi-key=$API_KEY")
     fun getHeadlines(
         @Query("language") language: String = "en",

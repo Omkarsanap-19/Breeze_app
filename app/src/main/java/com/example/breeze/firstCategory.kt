@@ -101,7 +101,7 @@ class firstCategory : Fragment() {
                 val responseBody = p1.body()
                 if (!isAdded)return
                 val productList = if (responseBody?.data != null) responseBody.data
-                                    else throw NullPointerException("Expression 'responseBody?.data' must not be null")
+                                    else { emptyList() }
 
                 binding.recycle?.layoutManager = LinearLayoutManager(requireContext())
                 adapt = myAdapter(requireActivity(),productList)

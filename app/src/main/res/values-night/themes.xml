@@ -4,10 +4,14 @@
         <!-- Customize your dark theme here. -->
         <item name="backgroundColor">#202020</item>
         <item name="colorOnBackground">#FFFFFF</item>
-        <item name="cardBackgroundColor">#333333</item>
+        <item name="cardBackgroundColor">#282828</item>
        <item name="colorPrimary">@color/white</item>
+        <item name="cardForegroundColor">#BEBEBE</item>
         <item name="boxBackgroundColor">#333333</item>
         <item name="itemFillColor">#434343</item>
+        <item name="android:textColorSecondaryInverse">@color/white</item>
+        <item name="android:textColorTertiaryInverse">@color/white</item>
+        <item name="colorOutlineVariant">@color/white</item>
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 

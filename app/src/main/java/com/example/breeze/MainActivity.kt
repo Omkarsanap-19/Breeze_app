@@ -4,6 +4,8 @@ import NewsResponse
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -51,14 +53,27 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        if (!isInternetAvailable()) {
+            startActivity(Intent(this, noInternet::class.java))
+            finish()
+            return
+        }
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+
+
 
 
 //    val itemView = LayoutInflater.from(this).inflate(R.layout.fragment_search_page,null)
@@ -88,7 +103,9 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        binding.bottomNavigation.show(1,true)
+
+        bottomUpdate(1)
+
 
 
         binding.bottomNavigation.setOnClickMenuListener {
@@ -104,6 +121,8 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+
+
     }
 
 
@@ -115,6 +134,10 @@ class MainActivity : AppCompatActivity() {
         transaction.commit()
 
 
+    }
+
+    fun bottomUpdate(id: Int){
+        binding.bottomNavigation.show(id,true)
     }
 
     private fun getNews() {
@@ -139,6 +162,14 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork ?: return false
+        val capabilities = connectivityManager.getNetworkCapabilities(network) ?: return false
+        return capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
     }
 
 }

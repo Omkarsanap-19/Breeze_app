@@ -6,11 +6,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,6 +33,7 @@ class Home_page : Fragment() {
 
     private lateinit var Tablayout: TabLayout
     private lateinit var Viewpage: ViewPager2
+
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: fragmentpageAdapter
@@ -89,6 +92,16 @@ class Home_page : Fragment() {
             }
         })
 
+        for (i in 0 until Tablayout.tabCount) {
+            val tab = Tablayout.getTabAt(i)
+            val tabView = (Tablayout.getChildAt(0) as ViewGroup).getChildAt(i) as ViewGroup
+            val tabTextView = tabView.getChildAt(1) as TextView // Tab's TextView is the second child
+
+            // Add padding to the text inside the tab
+            tabTextView.setPadding(22, 8, 22, 8) // Left, Top, Right, Bottom padding (in px)
+            tabTextView.gravity = Gravity.CENTER // Optional: Center-align text
+        }
+
 
 
 
@@ -105,7 +118,25 @@ class Home_page : Fragment() {
     }
 
 
+    private fun hideTabLayout() {
+        Tablayout.animate()
+            .translationY(-Tablayout.height.toFloat()) // Slide up
+            .setDuration(200)
+            .start()
+    }
+
+    private fun showTabLayout() {
+        Tablayout.animate()
+            .translationY(0f) // Slide down
+            .setDuration(200)
+            .start()
+    }
 
 
 }
+
+
+
+
+
 

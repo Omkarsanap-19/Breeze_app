@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    android:orientation="vertical"
     android:padding="16dp"
     tools:context=".profileActivity">
 
@@ -14,17 +13,25 @@
     <ImageView
         android:id="@+id/setting"
         android:layout_width="29dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_height="25dp"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         android:layout_marginEnd="17dp"
         android:rotation="90"
         android:src="@drawable/setting01"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
     <ImageView
         android:id="@+id/arrow_back"
         android:layout_width="25dp"
+        android:focusable="true"
+        android:foreground="?attr/selectableItemBackground"
         android:layout_height="25dp"
         android:layout_marginStart="13dp"
         android:layout_marginTop="10dp"
@@ -32,285 +39,318 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="70dp"
-        android:background="@drawable/background_profile"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/arrow_back">
+
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/circle_background"
+            android:elevation="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/person03"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Name -->
+        <EditText
+            android:id="@+id/etName"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:hint=" Add your name"
+            android:inputType="textPersonName"
+            android:textColor="?attr/colorOnBackground"
+            android:textSize="15sp" />
+
 
         <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@drawable/background_profile"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="horizontal"
+            android:id="@+id/name"
+            android:gravity="center"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:gravity="center"
+                android:id="@+id/name_cnf"
+                android:textColor="@color/darkgrey"
+                android:text="Add your name"
+                />
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="120dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="?attr/itemFillColor"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:src="@drawable/outline_email_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Email:"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/user_mail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="marquee"
-                        android:paddingTop="10dp"
-                        android:text=" info@gmail.com"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="15sp" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="?attr/itemFillColor"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:src="@drawable/baseline_person_outline_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Name:"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <EditText
-                        android:id="@+id/etName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:hint=" Add your name"
-                        android:inputType="textPersonName"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="?attr/itemFillColor"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="8dp">
-
-
-                <LinearLayout
-                    android:id="@+id/gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:src="@drawable/baseline_male_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Gender:"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/gen_data"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text=" -"
-                        android:textColor="?attr/colorOnBackground"
-
-                        android:textSize="15sp" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="?attr/itemFillColor"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="8dp">
-
-
-                <LinearLayout
-                    android:id="@+id/change_pass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:src="@drawable/baseline_password_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Change Password"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="20dp"
-                android:backgroundTint="?attr/itemFillColor"
-                app:cardCornerRadius="18dp"
-                app:cardElevation="8dp">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:src="@drawable/baseline_bookmark_24" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Bookmarked:"
-                        android:textColor="?attr/colorOnBackground"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/no_book"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text=" x"
-                        android:textColor="?attr/colorOnBackground"
-
-                        android:textSize="15sp" />
-
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingEnd="7dp"
+                android:paddingStart="3dp"
+                android:src="@drawable/outline_edit_24"
+                />
 
         </LinearLayout>
 
+        <!-- Stats Section -->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <LinearLayout
+            android:id="@+id/book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_profile"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/no_book"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text=" x "
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:text=" Bookmarks "
+                android:textColor="?attr/colorOnBackground"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <!-- Info Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="13dp"
+
+            android:layout_marginBottom="16dp"
+            android:background="?attr/backgroundColor"
+            android:orientation="vertical">
+
+
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="1dp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:layout_marginBottom="8dp"-->
+            <!--                android:background="@color/grey" />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp">
+
+                <ImageView
+                    android:layout_marginStart="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/baseline_mail_24" />
+
+                <TextView
+                    android:id="@+id/user_mail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:fontFamily="sans-serif"
+                    android:text=" info@gmail.com"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:id="@+id/gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                android:textColor="?attr/colorOnBackground">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/baseline_male_24" />
+
+                <TextView
+                    android:id="@+id/gen_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="-"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:id="@+id/change_pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                android:textColor="?attr/colorOnBackground">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/baseline_password_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="Change Password"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:id="@+id/lang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                android:textColor="?attr/colorOnBackground">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="19dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/language_outline_svgrepo_com" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:text="Languages"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:id="@+id/theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="16dp"
+                android:textColor="?attr/colorOnBackground">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="13dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/brightness_466300" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif"
+                    android:text="Change Theme"
+                    android:textColor="?attr/colorOnBackground"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/grey" />
+        </LinearLayout>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="sans-serif-medium"
         android:background="@drawable/button_design"
-        android:gravity="center"
         android:text="Logout"
-        android:visibility="gone"
+        android:textColor="?attr/backgroundColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:elevation="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        app:srcCompat="@drawable/person03"
 
         />
 

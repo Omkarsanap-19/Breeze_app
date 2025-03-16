@@ -1,10 +1,17 @@
 package com.example.breeze
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.Settings.Global.putString
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -13,9 +20,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.breeze.MainActivity.Companion.userId
@@ -23,6 +35,7 @@ import com.example.breeze.databinding.ActivityMainBinding
 import com.example.breeze.databinding.ActivityProfileBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -30,7 +43,13 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import kotlin.system.exitProcess
+import android.Manifest
+import android.os.Handler
+import android.widget.EditText
 
 class profileActivity : AppCompatActivity() {
     object UniversalVariable {
@@ -42,9 +61,10 @@ class profileActivity : AppCompatActivity() {
     lateinit var bottom_dialog: BottomSheetDialog
     lateinit var fileRefer: DatabaseReference
     lateinit var dialog: Dialog
-    lateinit var bhasha: String
-    lateinit var passDialog : BottomSheetDialog
-    lateinit var gender_Dialog : BottomSheetDialog
+
+
+    lateinit var passDialog: BottomSheetDialog
+    lateinit var gender_Dialog: BottomSheetDialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -58,6 +78,9 @@ class profileActivity : AppCompatActivity() {
             insets
         }
 
+
+
+
         bottom_dialog = BottomSheetDialog(this)
         bottom_dialog.setContentView(R.layout.bottom_dialog)
         bottom_dialog.setCancelable(true)
@@ -69,11 +92,12 @@ class profileActivity : AppCompatActivity() {
         binding.userMail.text = userEmail
 
         binding.arrowBack.setOnClickListener {
-            intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
         }
 
         fetchGenderFromFirebase()
+
+        theme_dialog()
 
         binding.gender.setOnClickListener {
 
@@ -89,8 +113,8 @@ class profileActivity : AppCompatActivity() {
             male?.setOnClickListener {
                 binding.genData.text = male.text
                 if (binding.genData.text.toString().isNotEmpty()) {
-                        saveGenderToFirebase(binding.genData.text.toString())
-                    }
+                    saveGenderToFirebase(binding.genData.text.toString())
+                }
                 gender_Dialog.dismiss()
             }
 
@@ -101,6 +125,12 @@ class profileActivity : AppCompatActivity() {
                 }
                 gender_Dialog.dismiss()
             }
+
+        }
+
+        binding.name.setOnClickListener {
+
+            showInputDialog()
 
         }
 
@@ -137,13 +167,11 @@ class profileActivity : AppCompatActivity() {
 
         binding.logoutBtn.setOnClickListener {
 
-            FirebaseAuth.getInstance().signOut()
-
-            Toast.makeText(this@profileActivity, "Logout successfully!!", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,loginActivity::class.java))
+            askatoleave()
 
 
         }
+
 
         binding.changePass.setOnClickListener {
 
@@ -151,8 +179,15 @@ class profileActivity : AppCompatActivity() {
 
         }
 
+        binding.lang.setOnClickListener {
+            binding.setting.performClick()
+        }
+
 
     }
+
+
+
 
     private fun changePassword() {
         passDialog = BottomSheetDialog(this)
@@ -283,8 +318,8 @@ class profileActivity : AppCompatActivity() {
             .addOnSuccessListener { snapshot ->
                 val name = snapshot.getValue(String::class.java)
                 if (!name.isNullOrEmpty()) {
-                    binding.etName.setText(name)
-                    binding.etName.isCursorVisible = false
+                    binding.nameCnf.text = name
+
                 }
             }
             .addOnFailureListener { e ->
@@ -296,6 +331,7 @@ class profileActivity : AppCompatActivity() {
     private fun fetchGenderFromFirebase() {
         val database = FirebaseDatabase.getInstance()
         val reference = database.getReference("gender").child(userId)
+
 
         reference.get()
             .addOnSuccessListener { snapshot ->
@@ -316,52 +352,139 @@ class profileActivity : AppCompatActivity() {
             bottom_dialog.show()
         }
 
-        val lang = bottom_dialog.findViewById<TextView>(R.id.lang)
-        val theme = bottom_dialog.findViewById<TextView>(R.id.theme)
-        val logout = bottom_dialog.findViewById<TextView>(R.id.log_out)
+        val bengali = bottom_dialog.findViewById<TextView>(R.id.ben)
+        val hindi = bottom_dialog.findViewById<TextView>(R.id.hindi)
+        val english = bottom_dialog.findViewById<TextView>(R.id.eng)
 
-        lang?.setOnClickListener {
-            val options = arrayOf("English", "Hindi", "Bengali")
-            val builder1 = AlertDialog.Builder(this)
-            builder1.setTitle("Choose Language")
-            builder1.setSingleChoiceItems(
-                options,
-                -1,
-                DialogInterface.OnClickListener { dialog, which ->
-                    UniversalVariable.sharedValue = options[which]
-                    dialog.dismiss()
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-                    startActivity(intent)
-                    finish()
-                    Toast.makeText(this@profileActivity, "Language changed successfully to ${UniversalVariable.sharedValue}", Toast.LENGTH_SHORT).show()
-                })
-            builder1.show()
+        english?.setOnClickListener {
+            UniversalVariable.sharedValue = "English"
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+            Toast.makeText(
+                this@profileActivity,
+                "Language changed successfully to ${UniversalVariable.sharedValue}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        logout?.setOnClickListener {
+        hindi?.setOnClickListener {
+            UniversalVariable.sharedValue = "Hindi"
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+            Toast.makeText(
+                this@profileActivity,
+                "Language changed successfully to ${UniversalVariable.sharedValue}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        bengali?.setOnClickListener {
+            UniversalVariable.sharedValue = "Bengali"
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish()
+            Toast.makeText(
+                this@profileActivity,
+                "Language changed successfully to ${UniversalVariable.sharedValue}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
+
+
+
+    private fun theme_dialog() {
+
+        binding.theme.setOnClickListener {
+
+            gender_Dialog = BottomSheetDialog(this)
+            gender_Dialog.setContentView(R.layout.gender_dialog)
+            gender_Dialog.setCancelable(true)
+            gender_Dialog.setCanceledOnTouchOutside(true)
+
+            gender_Dialog.show()
+            val male = gender_Dialog.findViewById<TextView>(R.id.male)
+            val female = gender_Dialog.findViewById<TextView>(R.id.female)
+
+            male?.text = "Light"
+            female?.text = "Dark"
+
+            male?.setOnClickListener {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                gender_Dialog.dismiss()
+            }
+
+            female?.setOnClickListener {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                gender_Dialog.dismiss()
+            }
+
+        }
+    }
+
+    private fun askatoleave() {
+        val builder= AlertDialog.Builder(this)
+        builder.setTitle("Confirm logout")
+        builder.setMessage("Are you sure you want to logout?")
+        builder.setIcon(R.drawable.baseline_logout_24)
+        builder.setPositiveButton("YES",DialogInterface.OnClickListener { dialog, which ->
+
             FirebaseAuth.getInstance().signOut()
 
             Toast.makeText(this@profileActivity, "Logout successfully!!", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,loginActivity::class.java))
-            
+            startActivity(Intent(this, loginActivity::class.java))
+
+            finish()
+
+        })
+        builder.setNegativeButton("CANCEL",DialogInterface.OnClickListener { dialog, which ->
+            dialog.dismiss()
+        })
+        builder.show()
 
 
-        }
-        theme?.setOnClickListener {
-            val options = arrayOf("Light", "Dark")
-            val builder1 = AlertDialog.Builder(this)
-            builder1.setTitle("Choose Theme")
-            builder1.setSingleChoiceItems(options, -1, DialogInterface.OnClickListener { dialog, which ->
-//                    val them = options[which]
-//                if (them == "Light"){
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                }else{
-//                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                }
-                    dialog.dismiss()
-
-                })
-            builder1.show()
-        }
     }
+
+    private fun showInputDialog() {
+        passDialog = BottomSheetDialog(this)
+        passDialog.setContentView(R.layout.user_name)
+        passDialog.setCancelable(true)
+        passDialog.setCanceledOnTouchOutside(true)
+
+        val cr_pass = passDialog.findViewById<TextInputEditText>(R.id.cr_name)
+        val submit = passDialog.findViewById<Button>(R.id.submit)
+        val cancel = passDialog.findViewById<Button>(R.id.cancel)
+
+        submit?.setOnClickListener {
+            val name = cr_pass?.text.toString()
+            if (name.isNotEmpty()) {
+                saveNameToFirebase(name)
+
+                Handler().postDelayed({
+                    passDialog.dismiss()
+                    fetchNameFromFirebase()
+                },500)
+
+            }else{
+                Toast.makeText(this,"Enter your name.",Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        cancel?.setOnClickListener {
+
+            passDialog.dismiss()
+        }
+
+        passDialog.show()
+    }
+
+
+
+
+
 }

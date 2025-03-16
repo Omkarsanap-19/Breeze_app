@@ -87,7 +87,8 @@ class fifthCategory : Fragment() {
             override fun onResponse(p0: Call<NewsResponse?>, p1: Response<NewsResponse?>) {
                 val responseBody = p1.body()
                 if (!isAdded) return
-                val productList = responseBody?.data!!
+                val productList = if (responseBody?.data != null) responseBody.data
+                else { emptyList() }
                 binding.recycle.layoutManager = LinearLayoutManager(requireContext())
                 adapt = myAdapter(requireActivity(),productList)
                 binding.recycle.adapter = adapt

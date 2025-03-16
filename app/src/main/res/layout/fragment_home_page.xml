@@ -8,6 +8,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Home_page">
 
+
+
+
+
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_home"
@@ -16,6 +20,7 @@
         android:layout_height="wrap_content"
 
         />
+
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
@@ -29,6 +34,7 @@
         app:tabIndicatorColor="@null"
         app:tabRippleColor="@null"
         app:tabIndicator="@drawable/tab_indicator"
+        android:padding="2dp"
 
         />
 

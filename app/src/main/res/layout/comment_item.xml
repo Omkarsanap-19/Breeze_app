@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="?attr/backgroundColor"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/comment_profile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/profile_pg"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/user_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Users name"
+            app:layout_constraintStart_toEndOf="@id/comment_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="?attr/colorOnBackground"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/user_name"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text= "•"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:id="@+id/dot"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="?attr/colorOnBackground"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/time_stamp"
+            android:layout_height="wrap_content"
+            android:text= "time"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dot"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/roboto"
+            android:textColor="@color/darkgrey"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center"
+            android:id="@+id/delete_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete_24"
+            android:background="@android:color/transparent"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment"
+        android:text= "this is something which will be commented here by th user"
+        android:textSize="15sp"
+        android:layout_gravity="start"
+        android:padding="5dp"
+        android:layout_marginEnd="11dp"
+
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto"
+        android:textColor="?attr/colorOnBackground"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/grey"
+        android:layout_marginTop="8dp" />
+
+
+
+</LinearLayout>

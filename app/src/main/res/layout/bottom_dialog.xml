@@ -19,9 +19,9 @@
         android:padding="15dp"
         android:fontFamily="@font/roboto"
         android:clickable="true"
-        android:id="@+id/theme"
+        android:id="@+id/eng"
         android:textStyle="bold"
-        android:text="Change Theme"
+        android:text="English"
         android:gravity="center"
         android:textColor="?attr/colorOnBackground"
         android:foreground="?attr/selectableItemBackground" />
@@ -34,46 +34,35 @@
         android:padding="15dp"
         android:fontFamily="@font/roboto"
         android:clickable="true"
-        android:id="@+id/lang"
+        android:id="@+id/hindi"
         android:textStyle="bold"
-        android:text="Change Language"
+        android:text="Hindi"
         android:gravity="center"
         android:textColor="?attr/colorOnBackground"
         android:foreground="?attr/selectableItemBackground" />
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusable="true"
+        android:textSize="18sp"
+        android:padding="15dp"
+        android:fontFamily="@font/roboto"
+        android:clickable="true"
+        android:id="@+id/ben"
+        android:textStyle="bold"
+        android:text="Bengali"
         android:gravity="center"
-        android:id="@+id/logout_bar"
+        android:textColor="?attr/colorOnBackground"
         android:foreground="?attr/selectableItemBackground"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:src="@drawable/baseline_logout_24"
-            app:tint="@color/red" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-            android:textSize="18sp"
-            android:fontFamily="@font/roboto"
-            android:clickable="true"
-            android:id="@+id/log_out"
-            android:padding="15dp"
-            android:textStyle="bold"
-            android:text="Logout"
-            android:gravity="center"
-            android:textColor="@color/red"
-
-            />
+        />
 
 
 
 
-    </LinearLayout>
+
+
+
 
 </LinearLayout>
