@@ -74,7 +74,7 @@ Breeze is an Android news application designed to provide users with real-time h
 <img src="https://github.com/user-attachments/assets/279cb528-05c9-4745-b333-37cc7db482d6" alt="llog_in" width="300" />
 <img src="https://github.com/user-attachments/assets/b6010d0c-644a-499e-8d29-a40a5ca36c72" alt="home_page_english" width="300" />
 <img src="https://github.com/user-attachments/assets/82439e1a-16b0-4706-af6b-1140373ab303" alt="home_page_2" width="300" />
-<img src="https://github.com/user-attachments/assets/0072169b-d10e-4573-ad1a-4c93276ba595" alt="home_pg_hindi" width="300" />
+<img src="https://github.com/user-attachments/assets/2d6d7e13-3b10-436b-9182-93c3ef4a4a5b" alt="home_pg_hindi" width="300" />
 <img src="https://github.com/user-attachments/assets/5fc75c63-5a8b-499e-b4e7-ea36c0d08849" alt="coment_page" width="300" />
 <img src="https://github.com/user-attachments/assets/88eb7c41-f69e-4b5a-bf96-14fab9d5ee6c" alt="search_page" width="300" />
 <img src="https://github.com/user-attachments/assets/1a81b36f-70b5-44c7-90ca-c35075ab6f20" alt="bookmark_page" width="300" />
